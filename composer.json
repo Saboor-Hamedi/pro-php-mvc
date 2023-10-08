@@ -1,0 +1,17 @@
+{
+	"name": "saboor/pro-php-mvc",
+	"description": "This is a pro mvc",
+	"autoload": {
+		"psr-4": {
+			"Framework\\": "app/"
+		}
+	},
+	"authors": [
+		{
+			"name": "Saboor-Hamedi"
+		}
+	],
+	"require": {
+		"vlucas/phpdotenv": "^5.5"
+	}
+}
