@@ -115,12 +115,11 @@ class Router
                     }
                 }
             }
+            // Handle 404 Not Found
+        http_response_code(404);
+        echo 'Page Not Found';
         } catch (Exception $e) {
             error_log('Something wrong with URL: ' . $e->getMessage());
         }
-
-        // Handle 404 Not Found
-        http_response_code(404);
-        echo 'Page Not Found';
     }
 }

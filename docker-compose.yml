@@ -1,27 +1,39 @@
 version: '3.8'
+
 services:
-  school-mvc:
+  php-app:
     build:
       context: ./Docker
+    image: my-php-app:latest
     ports:
-      - 8085:80
+      - 8010:80
     volumes:
       - .:/var/www/html
     depends_on:
-      - db
+      - mariadb
+  
+    networks:
+      - mynet
     environment:
-      - 3307=3306
-  db:
-    image: mariadb:latest
+      - DB_HOST=mariadb
+      - DB_PORT=3306
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+  mariadb:
+    image: mariadb
     environment:
-      MYSQL_USER: admin
-      MYSQL_DATABASE: school
-      MYSQL_PASSWORD: saboor123
-      MYSQL_ROOT_PASSWORD: saboor123
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
+      - MYSQL_USER=${DB_USERNAME}
+      - MYSQL_PASSWORD=${DB_PASSWORD}
     volumes:
-      - db-data:/var/lib/mysql
-      - ./Docker/mysql-config.cnf:/etc/mysql/conf.d/config.cnf
-      - ./volumes/data/mariadb:/var/lib/mysql
-      - ./table.sql:/docker-entrypoint-initdb.d/table.sql
+      - mariadb_data:/var/lib/mysql
+    networks:
+      - mynet
+
 volumes:
-  db-data:
+  mariadb_data:
+
+networks:
+  mynet:

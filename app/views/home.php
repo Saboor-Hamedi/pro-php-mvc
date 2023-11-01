@@ -9,9 +9,13 @@
 </head>
 
 <body>
+  <link rel="stylesheet" href="assets/css/style.css">
+  <link rel="stylesheet" href="assets/css/layout.css">
+
   </h1>
   <h4>I am the default home</h4>
-
+  <img src="assets/img/image.png" alt="">
+  
 </body>
 
 </html>

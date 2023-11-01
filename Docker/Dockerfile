@@ -1,30 +1,36 @@
-# Use the official PHP image as the base
-FROM php:8.2.7-apache
+# Use an official PHP runtime as a parent image
+# FROM php:8.2
+FROM php:8.2-apache
 
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    libpq-dev \
-    && docker-php-ext-install pdo pdo_mysql
+# Set the working directory to /var/www/html
+WORKDIR /var/www/html/
 
-# RUN apt-get update && apt-get install -y php-bcmath php-gmp
-RUN apt update && apt install libgmp-dev -y && docker-php-ext-install gmp
-# Copy custom Apache virtual host configuration
+# Copy the content of the local Docker directory to the working directory
 COPY 000-default.conf /etc/apache2/sites-available/000-default.conf
-# Enable Apache rewrite module
+COPY ./php.ini /usr/local/etc/php/conf.d/php.ini
+COPY ./mysql-config.cnf /etc/mysql/mysql.conf.d/
+
+# Enable Apache modules and configurations
+# Enable Apache modules and configurations
 RUN a2enmod rewrite
-# Set the working directory
-WORKDIR /var/www/html
-# Copy the custom php.ini file to the container's PHP configuration directory
-COPY ./php.ini /usr/local/etc/php/
 
-# Copy your project files into the container
-COPY . /var/www/html
+# Install PHP extensions and additional software
+RUN apt-get update && apt-get install -y \
+    libicu-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libzip-dev \
+    unzip \
+    libpq-dev \
+    libxml2-dev \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd intl pdo pdo_mysql pdo_pgsql mysqli zip
 
-# Expose port 80
-# EXPOSE 80
+# Expose port 80 for HTTP and 443 for HTTPS
+EXPOSE 80
+EXPOSE 443
 
-# Start Apache in foreground
+# Start Apache
 CMD ["apache2-foreground"]

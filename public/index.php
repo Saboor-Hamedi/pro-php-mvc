@@ -1,9 +1,4 @@
 <?php
-require_once __DIR__ . "/../vendor/autoload.php";
-use Framework\models\Routers;
-$routers = new Routers();
-$routers->routes();
-
-
-
+define('APPROOT', dirname(dirname((__FILE__))));
+require_once APPROOT. "/app/Http/bootstrap/bootstrap.php";
 
