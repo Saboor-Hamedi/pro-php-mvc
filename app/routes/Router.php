@@ -14,16 +14,25 @@ class Router
     protected  $routes = [];
     protected  $currentPrefix = ''; // Define the current route prefix
     protected  $parsed;
+    protected $default = '/';
     public function __construct()
     {
         $this->load();
+        $this->setDefaultRoute();
     }
     public function load()
     {
         $this->parsed = new EasyRouteParser();
         $this->fetchRequestInfo();
     }
-
+    protected function setDefaultRoute()
+    {
+        $this->get('/', function () {
+            // Redirect to the default route ("/home") when the root URL is accessed
+            header('Location: /home');
+            exit();
+        });
+    }
     private function fetchRequestInfo()
     {
         // Get the HTTP request method (e.g., GET, POST)
@@ -86,10 +95,16 @@ class Router
         ];
     }
 
+
+
     public function route()
     {
         // Get the parsed URL from the Router class
         try {
+            if (isset($this->routes[$this->default])) {
+                throw new InvalidRouteException('The requested route does not exist.');
+            }
+
             foreach ($this->routes as $route) {
                 if ($route['method'] === $this->requestedMethod) {
                     $pattern = '/^' . str_replace(['/', '{id}'], ['\/', '(\d+)'], $route['route']) . '$/';
@@ -104,22 +119,43 @@ class Router
                             $controllerClass = ucfirst($handler[0]);
                             $method = ucfirst($handler[1]);
                             $controller = new $controllerClass();
+
                             // Pass the extracted id as a parameter to the controller method
                             if (isset($matches[1])) {
                                 $controller->$method($matches[1]);
                             } else {
                                 $controller->$method();
                             }
+
                             return;
+                        } else {
+                            throw new InternalServerErrorException('Invalid route handler.');
                         }
                     }
                 }
             }
             // Handle 404 Not Found
-        http_response_code(404);
-        echo 'Page Not Found';
-        } catch (Exception $e) {
-            error_log('Something wrong with URL: ' . $e->getMessage());
+            throw new InvalidRouteException('The requested page could not be found.');
+        } catch (InvalidRouteException $e) {
+            // Log the error message
+            error_log($e->getMessage());
+
+            // Display a custom 404 page
+            header('Content-Type: text/html');
+            http_response_code(404);
+            echo '<h1>404 Not Found</h1>';
+            echo '<p>The page you requested could not be found.</p>';
+        } catch (InternalServerErrorException $e) {
+            // Log the error message and stack trace
+            error_log($e->getMessage() . PHP_EOL . $e->getTraceAsString());
+
+            // Display an internal server error page
+            http_response_code(500);
+            echo '<h1>Internal Server Error</h1>';
+            echo '<p>Something went wrong on our server. Please try again later.</p>';
+        } catch (RouterException $e) {
+            // Log the error message
+            error_log($e->getMessage());
         }
     }
 }

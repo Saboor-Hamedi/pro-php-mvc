@@ -2,12 +2,14 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
+  mode: 'production',
+  devtool: 'inline-source-map',
   entry: {
-    app: './src/app.js',
+    app: './src/main.js',
     style: './src/style.css',
   },
   output: {
-    filename: '[name]/bundle.js',
+    filename: '[name]/main.js',
     path: path.resolve(__dirname, 'public'),
   },
   module: {
@@ -27,4 +29,7 @@ module.exports = {
       filename: '[name]/style.css',
     }),
   ],
+  resolve: {
+    extensions: ['.js', '.jsx', '.css'],
+  },
 };
