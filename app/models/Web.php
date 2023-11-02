@@ -5,7 +5,7 @@ namespace Framework\models;
 use Framework\config\Dump;
 use Framework\Http\controllers\dashboard\DashboardController;
 use Framework\Http\controllers\HomeController;
-use Framework\routes\Router;
+use Framework\Router\Router;
 
 class Web
 {
