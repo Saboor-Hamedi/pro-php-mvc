@@ -1,7 +1,7 @@
 /node_modules
 /vendor
 .env
-/table.sql
+/tables.sql
 /volumes
 /src
 *.txt
