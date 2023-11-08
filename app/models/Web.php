@@ -13,9 +13,13 @@ class Web
   private $route;
   public function routes()
   {
-
     $this->route = new Router();
     $this->route->get('/home', [HomeController::class, 'index']);
+    $this->route->get('/home/update/{id}', [HomeController::class, 'update']);
+    $this->route->get('/home/create/{id}', [HomeController::class, 'create']);
+    $this->route->get('/home/delete/{id}', [HomeController::class, 'delete']);
+
+
     $this->route->group('/dashboard', function ($route) {
       $this->route->get('/admin', [DashboardController::class, 'index']);
     });

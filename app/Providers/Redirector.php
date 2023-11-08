@@ -3,7 +3,7 @@
 namespace Framework\Providers;
 
 use Framework\Providers\RouteServiceProvider;
-use Framework\routes\InvalidRouteException;
+use Framework\Router\Exceptions\InvalidRouteException;
 
 class Redirector
 {

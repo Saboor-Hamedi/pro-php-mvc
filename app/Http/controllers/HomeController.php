@@ -1,20 +1,48 @@
 <?php
+
 namespace Framework\Http\controllers;
 
-use Framework\models\Controller;
+use Framework\config\Dump;
+use Framework\Models\Controller;
+use Framework\Models\PostModel;
 
 class HomeController extends Controller
 {
+  use Dump;
+  protected $PostModel;
+  public function __construct()
+  {
+    $this->PostModel = new PostModel();
+  }
   public function index()
   {
-    $this->view('home');
+    $data = ['user_id' => 1];
+    $posts = $this->PostModel->where($data);
+    $this->view('home', ['posts'  => $posts]);
   }
-  public function show($id)
+  public function update($id)
   {
-    echo $id;
-    $this->view('show');
+    $data = [
+      'id' => $id,
+      'title' => 'Hello World, which I dont understand',
+      'content' => 'Okay, you force to updated'
+    ];
+    $where = ['id' => $id];
+    
+    $this->PostModel->update($data, $where);
+    $this->dd($data);
+    $this->view('/home');
   }
-  public function edit($id){
-    $this->view('edit');
+  public function create($id){
+    $data = [
+      'user_id'=> $id,
+      'title'=> 'I am new data',
+      'content'=> 'New Data',
+    ];
+    $this->PostModel->create($data);
+  }
+  public function delete($id){
+    $where = ['id'=> $id];
+    $this->PostModel->delete($where);
   }
 }

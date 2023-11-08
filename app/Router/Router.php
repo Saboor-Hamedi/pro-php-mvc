@@ -1,6 +1,7 @@
 <?php
 
 namespace Framework\Router;
+
 use Framework\config\Dump;
 use Framework\Router\Exceptions\internalServerErrorException;
 use Framework\Router\Exceptions\InvalidRouteException;
@@ -30,7 +31,7 @@ class Router
     {
         $this->get('/', function () {
             // Redirect to the default route ("/home") when the root URL is accessed
-            redirect(302,'/home');
+            redirect(302, '/home');
         });
     }
     private function fetchRequestInfo()
@@ -87,11 +88,16 @@ class Router
     {
         // Add the current prefix to the route
         $route = $this->currentPrefix . $route;
+        // $pattern = '/^' . str_replace(['/', '{id}'], ['\/', '(.+)'], $route) . '$';
+        // $pattern = '/^' . str_replace(['/', '{id}'], ['\/', '(?:(.+))?'], $route) . '$';
+        $pattern = '/^' . str_replace(['/', '{id}'], ['\/', '(.+)'], $route) . '$/';
+
 
         $this->routes[] = [
             'method' => $method,
             'route' => $route,
             'handler' => $handler,
+            'pattern' => $pattern, // Add the pattern to the route data
         ];
     }
 
@@ -105,8 +111,8 @@ class Router
 
             foreach ($this->routes as $route) {
                 if ($route['method'] === $this->requestedMethod) {
-                    $pattern = '/^' . str_replace(['/', '{id}'], ['\/', '(\d+)'], $route['route']) . '$/';
-                    if (preg_match($pattern, $this->requestedUrl, $matches)) {
+                    // $pattern = '/^' . str_replace(['/', '{id}'], ['\/', '(\d+)'], $route['route']) . '$/';
+                    if (preg_match($route['pattern'], $this->requestedUrl, $matches)) {
                         $handler = $route['handler'];
 
                         // Check if the handler is callable
@@ -137,9 +143,8 @@ class Router
         } catch (InvalidRouteException $e) {
             // Log the error message
             error_log($e->getMessage());
-
             // Display a custom 404 page
-            header('Content-Type: text/html');
+            // header('Content-Type: text/html');
             http_response_code(404);
             echo '<h1>404 Not Found</h1>';
             echo '<p>The page you requested could not be found.</p>';

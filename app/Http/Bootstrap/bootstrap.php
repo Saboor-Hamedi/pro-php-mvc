@@ -5,6 +5,7 @@ use Framework\models\Web;
 use Framework\Providers\Redirector;
 use Framework\Providers\RouteServiceProvider;
 use Framework\Providers\ServiceLocator;
+
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 $router = RouteServiceProvider::getInstance();
@@ -16,5 +17,6 @@ function redirect(int $statusCode, string $url): void
 {
   ServiceLocator::getRedirector()->redirect($statusCode, $url);
 }
+
 $routers = new Web();
 $routers->routes();
