@@ -30,13 +30,23 @@ Pro PHP MVC is a lightweight and customizable Model-View-Controller (MVC) framew
       │       └── about.php
       │
       ├── config
-      │   ├── database.php
-      │   └── routes.php
+      │   ├── Dump.php
+      │   └── Setting.php
       │
+      |-- Http
+      |--- Bootstrap 
+      |---- boottrap.php 
+      |
+      |-- Router 
+      |--- Exception
+      |--- URL
+      |---- Error.php
+      |---- Redirect.php
+      |--Router.php
+      |
       ├── public
       │   ├── index.php
       │   └── assets
-      |       |
       |       |--css
       │       └── styles.css
       |       |--js
