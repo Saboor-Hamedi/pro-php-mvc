@@ -15,49 +15,50 @@ Pro PHP MVC is a lightweight and customizable Model-View-Controller (MVC) framew
 ## Getting Started
 
 ### Folder Structure 
-    ```plaintext
-    pro-php-mvc
-│
-├── app
-│   ├── controllers
-│   │   ├── HomeController.php
-│   │   └── AboutController.php
-│   ├── Models
-│   │   ├── UserModel.php
-│   └── views
-|       | dashboard 
-|       |-- admin.php 
-│       ├── home.php
-│       └── about.php
-│
-├── config
-│   ├── database.php
-│   └── routes.php
-│
-├── public
-│   ├── index.php
-│   └── assets
-|       |
-|       |--css
-│       └── styles.css
-|       |--js
-|       |-- main.js
-|       |--img 
-|       |-- images.png, jpg, etc 
-│
-├── vendor
-│   └── ...
-│
-├── .env.example
-├── .gitignore
-├── composer.json
-├── CONTRIBUTING.md
-├── Dockerfile
-├── LICENSE
-├── phpunit.xml
-├── README.md
-└── docker-compose.yml
-```
+    ```textplain
+      | pro-php-mvc
+      │
+      ├── app
+      │   ├── controllers
+      │   │   ├── HomeController.php
+      │   │   └── AboutController.php
+      │   ├── Models
+      │   │   ├── UserModel.php
+      │   └── views
+      |       | dashboard 
+      |       |-- admin.php 
+      │       ├── home.php
+      │       └── about.php
+      │
+      ├── config
+      │   ├── database.php
+      │   └── routes.php
+      │
+      ├── public
+      │   ├── index.php
+      │   └── assets
+      |       |
+      |       |--css
+      │       └── styles.css
+      |       |--js
+      |       |-- main.js
+      |       |--img 
+      |       |-- images.png, jpg, etc 
+      │
+      ├── vendor
+      │   └── ...
+      │
+      ├── .env.example
+      ├── .gitignore
+      ├── composer.json
+      ├── CONTRIBUTING.md
+      ├── Dockerfile
+      ├── LICENSE
+      ├── phpunit.xml
+      ├── README.md
+      └── docker-compose.yml
+        
+
 ### Prerequisites
 
 - PHP 7.2 or later
@@ -93,4 +94,4 @@ Pro PHP MVC is a lightweight and customizable Model-View-Controller (MVC) framew
         });
         $this->route->route();
       }
-     ```
+    
