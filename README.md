@@ -27,7 +27,7 @@ Pro PHP MVC is a lightweight and customizable Model-View-Controller (MVC) framew
    git clone https://github.com/Saboor-Hamedi/pro-php-mvc.git
 
 
-## Usage
+### Usage
 
 1. **Define Routes:**
    - Open the `routes.php` file in the `app` directory.
