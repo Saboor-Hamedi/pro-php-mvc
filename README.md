@@ -15,8 +15,7 @@ Pro PHP MVC is a lightweight and customizable Model-View-Controller (MVC) framew
 ## Getting Started
 
 ### Folder Structure 
-    
-      | pro-php-mvc
+      
       │
       ├── app
       │   ├── controllers
