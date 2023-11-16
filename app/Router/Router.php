@@ -6,6 +6,7 @@ use Framework\config\Dump;
 use Framework\Router\Exceptions\internalServerErrorException;
 use Framework\Router\Exceptions\InvalidRouteException;
 use Framework\Router\Exceptions\RouterException;
+use Framework\Router\URL\Redirect;
 use Framework\services\EasyRouteParser;
 
 class Router
@@ -29,9 +30,8 @@ class Router
     }
     protected function setDefaultRoute()
     {
-        $this->get('/', function () {
-            // Redirect to the default route ("/home") when the root URL is accessed
-            redirect(302, '/home');
+        $this->get('/', function(){
+            Redirect::to('/home');
         });
     }
     private function fetchRequestInfo()
@@ -100,7 +100,17 @@ class Router
             'pattern' => $pattern, // Add the pattern to the route data
         ];
     }
-
+    public static function getRoute()
+    {
+        static $instance;
+    
+        if ($instance === null) {
+            $instance = new self();
+        }
+    
+        return $instance;
+    }
+    
     public function route()
     {
         // Get the parsed URL from the Router class
@@ -160,5 +170,8 @@ class Router
             // Log the error message
             error_log($e->getMessage());
         }
+    }
+    public function redirect($url){
+        return $url;
     }
 }

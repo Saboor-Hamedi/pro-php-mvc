@@ -19,7 +19,7 @@ class Web
     $this->route->get('/home/create/{id}', [HomeController::class, 'create']);
     $this->route->get('/home/delete/{id}', [HomeController::class, 'delete']);
 
-
+    // group
     $this->route->group('/dashboard', function ($route) {
       $this->route->get('/admin', [DashboardController::class, 'index']);
     });

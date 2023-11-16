@@ -1,9 +1,5 @@
 <?php
-
-use Framework\Database\Database;
-use Framework\models\PostModel;
-use Framework\Router\Exceptions\InternalServerErrorException;
-
+use Framework\Router\URL\Error;
 require_once __DIR__ . '/inc/header.php'; ?>
 <div class="wrapper">
   <div class="content-wrapper" style="min-height: 554.667px;">
@@ -22,29 +18,50 @@ require_once __DIR__ . '/inc/header.php'; ?>
         </div>
       </div>
     </div>
-    <section class="content">
-      <div class="row">
-        <section class="col-lg-12 connectedSortable ui-sortable">
-          <div class="card">
-            <div class="card-header ui-sortable-handle" style="cursor: move;">
-              <h3 class="card-title">
-                <i class="fas fa-database"></i>
-                Data
-              </h3>
-            </div>
-            <div class="card-body">
-              <div class="tab-content p-0">
-              <?php
-                foreach($posts as $post):
-                  echo  '<br />'. $post->title;
-                endforeach;
-              ?>
-              </div>
-            </div>
+    <section class="col-lg-12 connectedSortable ui-sortable">
+      <?php
+      // Display any messages
+      if (Error::has('primary_message')) {
+        Error::setMessage('primary_message');
+      } ?>
+      <div class="card">
+        <div class="container">
+          <div class="card-header">
+            <h3 class="card-title">
+              <i class="fas fa-database"></i>
+              Data
+            </h3>
           </div>
-        </section>
+
+          <table class="table">
+
+            <thead>
+
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Content</th>
+              </tr>
+            </thead>
+            <div class="row">
+              <?php
+              if (is_array($posts) || is_object($posts)) : ?>
+                <?php foreach ($posts as $post) : ?>
+                  <tbody>
+                    <tr>
+                      <td><?php echo $post->id ?></td>
+                      <td><?php echo $post->title ?></td>
+                      <td><?php echo $post->content ?></td>
+                    </tr>
+                  </tbody>
+                <?php endforeach; ?>
+              <?php endif; ?>
+            </div>
+          </table>
+        </div>
       </div>
     </section>
+
   </div>
 
   <?php require_once __DIR__ . '/inc/footer.php'; ?>
